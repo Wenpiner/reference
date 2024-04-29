@@ -24,8 +24,8 @@ jobs:
               with:
                   target_repo_token: ${{ secrets.GITHUB_TOKEN }}
                   upstream_sync_repo: jaywcjlove/reference
-                  upstream_sync_branch: gh-pages
-                  target_sync_branch: gh-pages
+                  upstream_sync_branch: main
+                  target_sync_branch: main
                   test_mode: false
 
             - name: Check for Failure
