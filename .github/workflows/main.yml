@@ -1,8 +1,5 @@
 name: Upstream Sync
 
-permissions:
-    contents: write
-
 on:
     push: 
     schedule:
@@ -11,6 +8,9 @@ on:
 
 jobs:
     sync_with_upstream:
+        permissions:
+            contents: write
+            pull-requests: write
         name: Sync with Upstream
         runs-on: ubuntu-latest
         if: ${{ github.event.repository.fork }}
@@ -18,6 +18,8 @@ jobs:
         steps:
             - name: Checkout target repo
               uses: actions/checkout@v3
+              with:
+                token: ${{ secrets.FLOW_TOKEN }}
 
             - name: Sync Upstream
               uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
@@ -25,7 +27,7 @@ jobs:
                   target_repo_token: ${{ secrets.FLOW_TOKEN }}
                   upstream_sync_repo: jaywcjlove/reference
                   upstream_sync_branch: main
-                  target_sync_branch: main
+                  target_sync_branch: release
                   test_mode: false
 
             - name: Check for Failure
