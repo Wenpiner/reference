@@ -6,11 +6,12 @@ on:
         - cron: "0 0 * * *"
     workflow_dispatch:
 
+permissions:
+    contents: write
+    pull-requests: write
+
 jobs:
     sync_with_upstream:
-        permissions:
-            contents: write
-            pull-requests: write
         name: Sync with Upstream
         runs-on: ubuntu-latest
 
@@ -18,7 +19,6 @@ jobs:
             - name: Checkout target repo
               uses: actions/checkout@v3
               with:
-                token: ${{ secrets.FLOW_TOKEN }}
                 ref: release
 
             - name: Sync Upstream
@@ -28,7 +28,7 @@ jobs:
                   upstream_sync_repo: jaywcjlove/reference
                   upstream_sync_branch: main
                   target_sync_branch: release
-                  test_mode: true
+                  test_mode: false
 
             - name: Check for Failure
               if: failure()
